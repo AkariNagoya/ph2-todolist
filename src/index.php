@@ -1,5 +1,5 @@
 <?php
-require_once 'dbconnect.php';
+require_once __DIR__ . '/dbconnect.php';
 session_start();
 
 $user_id = $_SESSION['user_id'] ?? null;
@@ -53,38 +53,37 @@ try {
     <!-- ここに今のフォーム & ToDo一覧 -->
 
     <!-- 入力フォーム -->
-    <form action="./admin/create/index.php" method="POST" class="mb-6">
       <input
         type="text"
         name="text"
         placeholder="新しいToDoを入力してください"
         class="w-full border rounded-md px-3 py-2 mb-3"
+        id="todo-text"
       >
       <button
-        type="submit"
+        type="button"
         class="w-32 bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 rounded-md"
+        id="js-create-todo"
       >
         追加
       </button>
-    </form>
       
       <!-- ToDo一覧 -->
-    <div class="space-y-3">
+    <div class="space-y-3" id="js-todo-list">
       <?php foreach ($todos as $todo): ?>
-        <div class="flex items-center justify-center gap-3">
+        <div class="flex items-center justify-center gap-3" data-id="<?= $todo['id'] ?>">
           <span class="w-24 text-left">
             <?= htmlspecialchars($todo['text']) ?>
           </span>
 
-          <form action="./admin/update/index.php" method="POST">
-            <input type="hidden" name="id" value="<?= $todo['id']?>">
             <button
-            type="submit"
+            type="button"
+            id="js-complete-todo"
+            data-id="<?= $todo['id'] ?>"
             class="bg-blue-500 hover:bg-blue-600 text-white text-sm px-3 py-1 rounded"
             >
             <?= $todo['complete'] ? 'Undo' : 'Complete' ?>
             </button>
-          </form>
           <!-- <a
             href="./admin/update/index.php?id=<?= $todo['id'] ?>"
             class="bg-blue-500 hover:bg-blue-600 text-white text-sm px-3 py-1 rounded"
@@ -99,20 +98,40 @@ try {
           Edit
         </a>
         
-          <form action="./admin/delete/index.php" method="POST">
-            <input type="hidden" name="id" value="<?= $todo['id'] ?>">
             <button
-            type="submit"
-            class="bg-red-500 hover:bg-red-600 text-white text-sm px-3 py-1 rounded"
+            type="button"
+            class="js-delete-todo bg-red-500 hover:bg-red-600 text-white text-sm px-3 py-1 rounded"
             >
             Delete
             </button>
-          </form>
         </div>
       <?php endforeach; ?>
     </div>
   </div>
   </div>
-
+  <template id="js-template">
+  <div id="js-todo-template" class="flex items-center justify-center gap-3">
+    <span id="js-todo-text" class="w-24 text-left"></span>
+    <!-- js-complete-todo クラスはステータスの更新処理で使うため、ここでクラスに追記しています -->
+    <button 
+    type="button"
+    id="js-complete-todo-template"
+    class="js-complete-todo bg-blue-500 hover:bg-blue-600 text-white text-sm px-3 py-1 rounded"
+    data-id="">
+      Complete
+    </button>
+    <a href="" id="js-edit-todo-template" class="bg-yellow-400 hover:bg-yellow-500 text-white text-sm px-3 py-1 rounded">
+      Edit
+    </a>
+    <button
+    type="button"
+    id="js-delete-todo-template"
+    class="js-delete-todo bg-red-500 hover:bg-red-600 text-white text-sm px-3 py-1 rounded"
+    data-id="">
+      Delete
+    </button>
+  </div>
+  </template>
+<script src="./script.js"></script>
 </body>
 </html>

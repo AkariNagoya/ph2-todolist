@@ -32,6 +32,6 @@ try{
   exit;
 }
 
-header('Location: ../../index.php');
-exit;
+$newlyInsertedId = $dbh->lastInsertId();
+echo json_encode(['id' => $newlyInsertedId]);
 ?>
