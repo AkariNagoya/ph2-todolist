@@ -87,7 +87,7 @@ document.getElementById('js-create-todo').addEventListener('click', createTodo);
 // 更新処理
 function updateTodoView(id, complete) {
   const todo = document.querySelector(`[data-id="${id}"]`);
-  const btn = todo.querySelector('#js-complete-todo');
+  const btn = todo.querySelector('.js-complete-todo');
 
   if (complete == 1) {
     btn.textContent = 'Undo';
@@ -111,7 +111,7 @@ async function updateTodo(id) {
 }
 
 document.addEventListener('click', (e) => {
-  if (e.target.id === 'js-complete-todo') {
+  if (e.target.classList.contains('js-complete-todo')) {
     const todo = e.target.closest('[data-id]');
     updateTodo(todo.dataset.id);
   }

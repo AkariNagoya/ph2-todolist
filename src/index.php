@@ -78,9 +78,8 @@ try {
 
             <button
             type="button"
-            id="js-complete-todo"
             data-id="<?= $todo['id'] ?>"
-            class="bg-blue-500 hover:bg-blue-600 text-white text-sm px-3 py-1 rounded"
+            class="js-complete-todo bg-blue-500 hover:bg-blue-600 text-white text-sm px-3 py-1 rounded"
             >
             <?= $todo['complete'] ? 'Undo' : 'Complete' ?>
             </button>
